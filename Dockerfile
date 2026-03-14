@@ -38,9 +38,10 @@ RUN apt-get update -qq \
 
 # Install application gems
 COPY vendor/* ./vendor/
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile ./
 
 RUN gem install bundler -v 2.6.9 \
+  && bundle lock \
   && bundle install \
   && rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git \
   && bundle exec bootsnap precompile -j 1 --gemfile

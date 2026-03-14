@@ -7,6 +7,9 @@
 # Ignore bundler config.
 /.bundle
 
+# Ignore local Gemfile.lock so Docker generates its own.
+/Gemfile.lock
+
 # Ignore all environment files.
 /.env*
 
