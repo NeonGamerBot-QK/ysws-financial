@@ -8,3 +8,10 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+body,
+html {
+    background-image:
+        linear-gradient(hsla(0, 0%, 100%, 0.075) 1px, #111 0),
+        linear-gradient(90deg, hsla(0, 0%, 100%, 0.075) 1px, #111 0);
+    background-size: 32px 32px;
+}

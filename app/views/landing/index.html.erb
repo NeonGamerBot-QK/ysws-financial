@@ -1,3 +1,126 @@
-<h1 class="text-3xl font-bold underline">
-  Hello world!
-</h1>
+<!-- Fixed hero group: title + RSVP form move together -->
+<div id="hero-group" class="fixed z-50 will-change-transform m-20 lg:m-0 px-6 lg:px-0">
+  <h1 id="hero-title" class="text-3xl sm:text-5xl lg:text-7xl font-bold text-white pointer-events-none" style="font-family: 'Open Sans', sans-serif;">
+    Financial <span class="text-gray-500 text-sm">(not responsibility tho)</span>
+  </h1>
+    <p>YS: Apps relating to banking/handling money , we ship: simplefin subscription!</p>
+  <!-- RSVP form: always visible below the title -->
+  <div id="rsvp-section" class="mt-6">
+    <p class="text-white/80 text-xl mb-4" style="font-family: 'Open Sans', sans-serif;">
+      Get notified when we launch
+    </p>
+    <form action="#" method="post" class="flex gap-3 max-w-md">
+      <input
+        type="email"
+        name="email"
+        placeholder="you@example.com"
+        required
+        class="flex-1 px-4 py-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-white/50 outline-none focus:border-white/50 transition-colors"
+        style="font-family: 'Open Sans', sans-serif;"
+      >
+      <button type="submit" class="px-6 py-3 rounded-xl bg-white text-purple-800 font-semibold hover:bg-white/90 transition-colors" style="font-family: 'Open Sans', sans-serif;">
+        RSVP
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Hero spacer: just one screen tall -->
+<div class="min-h-screen"></div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const heroGroup = document.getElementById("hero-group");
+    const title = document.getElementById("hero-title");
+    const rsvpSection = document.getElementById("rsvp-section");
+
+    /** Breakpoint: disable scroll animation at or below 1024px (iPad and smaller) */
+    const MOBILE_BREAKPOINT = 1024;
+
+    /** Scroll distance (in px) over which the animation completes */
+    const SCROLL_THRESHOLD = 400;
+
+    /**
+     * Apply easeOutCubic for a smooth deceleration feel.
+     * @param {number} t - Linear progress from 0 to 1
+     * @returns {number} Eased progress
+     */
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    /** Check if the viewport is mobile/tablet sized */
+    function isMobile() {
+      return window.innerWidth <= MOBILE_BREAKPOINT;
+    }
+
+    /** Recalculate centered position based on the group size */
+    function getCenterPosition() {
+      return {
+        x: (window.innerWidth - title.offsetWidth) / 2,
+        y: (window.innerHeight - title.offsetHeight) / 2,
+      };
+    }
+
+    // End position (top-left corner with padding)
+    const END_X = 24;
+    const END_Y = 24;
+    const END_SCALE = 0.4;
+
+    /** Reset the hero group to static centered position (for mobile) */
+    function resetToCenter() {
+      heroGroup.style.position = "relative";
+      heroGroup.style.left = "";
+      heroGroup.style.top = "";
+      heroGroup.style.transform = "";
+    }
+
+    /** Set up the fixed position for desktop animation */
+    function setupFixed() {
+      heroGroup.style.position = "";
+      const center = getCenterPosition();
+      heroGroup.style.left = `${center.x}px`;
+      heroGroup.style.top = `${center.y}px`;
+    }
+
+    let center = getCenterPosition();
+
+    if (isMobile()) {
+      resetToCenter();
+    } else {
+      heroGroup.style.left = `${center.x}px`;
+      heroGroup.style.top = `${center.y}px`;
+    }
+
+    window.addEventListener("resize", () => {
+      center = getCenterPosition();
+      if (isMobile()) {
+        resetToCenter();
+      } else {
+        setupFixed();
+      }
+    });
+
+    window.addEventListener("scroll", () => {
+      // Skip scroll animation on mobile/tablet
+      if (isMobile()) return;
+
+      const linearProgress = Math.min(window.scrollY / SCROLL_THRESHOLD, 1);
+      const progress = easeOutCubic(linearProgress);
+
+      const scale = 1 - (progress * (1 - END_SCALE));
+      const currentX = center.x + (END_X - center.x) * progress;
+      const currentY = center.y + (END_Y - center.y) * progress;
+
+      // Move the entire group (title + RSVP) together
+      heroGroup.style.left = `${currentX}px`;
+      heroGroup.style.top = `${currentY}px`;
+      heroGroup.style.transform = `scale(${scale})`;
+      heroGroup.style.transformOrigin = "top left";
+    });
+  });
+</script>
+
+<%= render "landing/faq" %>
+
+<%= render "landing/carousel" %>

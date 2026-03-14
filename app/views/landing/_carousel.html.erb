@@ -1,0 +1,53 @@
+<%
+  # Carousel testimonials: add/remove/reorder items here
+  testimonials = [
+    { quote: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum.", author: "Marcus Aurelius" },
+    { quote: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.", author: "Cicero" },
+    { quote: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed.", author: "Seneca" },
+    { quote: "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil.", author: "Pliny the Elder" },
+    { quote: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis.", author: "Julius Caesar" },
+    { quote: "Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus.", author: "Horace" }
+  ]
+%>
+
+<!-- Auto-scrolling Carousel -->
+<section class="py-20 overflow-hidden">
+  <h2 class="text-4xl font-bold text-white mb-12 text-center" style="font-family: 'Open Sans', sans-serif;">
+    What are others trying to make
+  </h2>
+
+  <div class="relative">
+    <!-- Fade edges -->
+    <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-indigo-500 to-transparent z-10 pointer-events-none"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-purple-800 to-transparent z-10 pointer-events-none"></div>
+
+    <!-- Carousel track -->
+    <div id="carousel-track" class="flex gap-6 will-change-transform" style="animation: scroll-left 30s linear infinite;">
+      <% testimonials.each do |testimonial| %>
+        <div class="flex-shrink-0 w-80 bg-white/10 backdrop-blur-sm rounded-xl p-6">
+          <p class="text-white/80 italic">"<%= testimonial[:quote] %>"</p>
+          <p class="text-white font-semibold mt-4">— <%= testimonial[:author] %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+</style>
+
+<script>
+  // Duplicate carousel items for seamless infinite loop
+  document.addEventListener("DOMContentLoaded", () => {
+    const track = document.getElementById("carousel-track");
+    track.innerHTML += track.innerHTML;
+  });
+</script>
