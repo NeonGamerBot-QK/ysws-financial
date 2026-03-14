@@ -3,7 +3,7 @@
   <p class="text-white/80 text-xl mb-4" style="font-family: 'Open Sans', sans-serif;">
     Get notified when we launch
   </p>
-  <form action="#" method="post" class="flex gap-3 max-w-md">
+  <%= form_with url: "/rsvp", method: :post, class: "flex gap-3 max-w-md" do %>
     <input
       type="email"
       name="email"
@@ -15,5 +15,5 @@
     <button type="submit" class="px-6 py-3 rounded-xl bg-white text-purple-800 font-semibold hover:bg-white/90 transition-colors" style="font-family: 'Open Sans', sans-serif;">
       RSVP
     </button>
-  </form>
+  <% end %>
 </div>
