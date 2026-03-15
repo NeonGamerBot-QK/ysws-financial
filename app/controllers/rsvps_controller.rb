@@ -9,7 +9,7 @@ class RsvpsController < ApplicationController
     )
 
     if @rsvp.save
-      redirect_to root_path, notice: "You're on the list!"
+      redirect_to root_path, alert: "Thank you for rsvping!"
     else
       redirect_to root_path, alert: @rsvp.errors.full_messages.first
     end

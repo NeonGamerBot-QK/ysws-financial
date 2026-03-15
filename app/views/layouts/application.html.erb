@@ -28,6 +28,11 @@
   </head>
 
   <body class="bg-gradient-to-r from-indigo-500 to-purple-800 min-h-screen animate-in fade-in slide-in-from-bottom-4 duration-1000">
+    <% if flash[:alert] %>
+      <div class="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-white/90 text-indigo-800 font-semibold px-6 py-3 rounded-xl shadow-lg backdrop-blur-sm animate-in fade-in slide-in-from-top-4 duration-500">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
     <%= yield %>
   </body>
 </html>
